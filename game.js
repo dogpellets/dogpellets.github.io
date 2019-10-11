@@ -230,7 +230,7 @@ class Game {
                 });
 
                 if (touchedFish) {
-                    // success = true;
+                    success = true;
                     this.resetSingleFood(touchedFish);
                     this.addScore();
                 }
