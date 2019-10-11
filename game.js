@@ -4,7 +4,7 @@ class Game {
         this.bearStartX = 1;
         this.bearStartY = 1;
         this.bear = new Bear(1, 1, 100, 100);
-        this.fish = new Food(1, 1, 50, 50);
+        this.fish = new Food(1, 1, 100, 100);
         this.fish = [
             new Food(1, 1, 50, 50),
             new Food(1, 1, 50, 50),
@@ -127,15 +127,19 @@ class Game {
         return Math.floor(Math.random() * Math.floor(max));
     }
 
+    resetSingleFood(fish) {
+        let newX = 0, newY = 0;
+        do {
+            newX = this.getRandomInt(this.board.countX);
+            newY = this.getRandomInt(this.board.countY);
+        } while (this.isPositionTaken(newX, newY));
+        fish.x = newX;
+        fish.y = newY;
+    }
+
     resetFood() {
         this.fish.forEach((fish) => {
-            let newX = 0, newY = 0;
-            do {
-                newX = this.getRandomInt(this.board.countX);
-                newY = this.getRandomInt(this.board.countY);
-            } while (this.isPositionTaken(newX, newY));
-            fish.x = newX;
-            fish.y = newY;
+            this.resetSingleFood(fish);
         });
 
     }
@@ -218,17 +222,16 @@ class Game {
                 this.program[idx]();
                 this.setActiveInstruction(idx);
 
-                let touchedFish = false;
+                let touchedFish = null;
                 this.fish.forEach((fish) => {
                     if (this.bear.x == fish.x && this.bear.y == fish.y) {
-                        touchedFish = true;
+                        touchedFish = fish;
                     }   
                 });
 
                 if (touchedFish) {
-                // if (this.bear.x == this.fish.x && this.bear.y == this.fish.y) {
-                    success = true;
-                    this.resetFood();
+                    // success = true;
+                    this.resetSingleFood(touchedFish);
                     this.addScore();
                 }
 

@@ -7,7 +7,7 @@ class Food {
         this.group = createSVGElem("g");
         this.image = createSVGElem("image");
         this.group.appendChild(this.image);
-        setSVGAttr(this.image, "href", "fish.svg");
+        setSVGAttr(this.image, "href", "coins.svg");
         setSVGAttr(this.image, "width", this.width);
         setSVGAttr(this.image, "height", this.height);
         setSVGAttr(this.image, "x", -this.width * 0.5);
