@@ -46,10 +46,10 @@
         </div>
         <div style="float:left; margin-left:20px">
             <div class="title">Instructions</div>
-            <div onclick="game.addInstruction('left', 'Left')" class="instruction-set">Left</div>
-            <div onclick="game.addInstruction('right', 'Right')" class="instruction-set">Right</div>
-            <div onclick="game.addInstruction('up', 'Up')" class="instruction-set">Up</div>
-            <div onclick="game.addInstruction('down', 'Down')" class="instruction-set">Down</div>
+            <div onclick="game.addInstruction('left', '&#129092;')" class="instruction-set">&#129092;</div>
+            <div onclick="game.addInstruction('right', '&#129094;')" class="instruction-set">&#129094;</div>
+            <div onclick="game.addInstruction('up', '&#129093;')" class="instruction-set">&#129093;</div>
+            <div onclick="game.addInstruction('down', '&#129095;')" class="instruction-set">&#129095;</div>
             <div style="margin-top:50px" class="title">Score</div>
             <div id="score" class="score">0</div>
             <div style="margin-top:50px" class="title">High Score</div>
