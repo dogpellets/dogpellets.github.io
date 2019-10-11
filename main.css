@@ -1,0 +1,101 @@
+body {
+    background-color: #c4d1c2
+}
+
+.title {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 17;
+    font-weight: bold;
+    text-align: center;
+}
+
+.score {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 35;
+    font-weight: bold;
+    text-align: center;
+}
+
+[class*="instruction-"] {
+    border: 2px black solid;
+    margin: 10px auto;
+    width: 50;
+    height: 45;
+    text-align: center;
+    font-size: 30;
+    font-weight: bold;
+    cursor: default;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select:none;    
+}
+
+.instruction-set {
+
+}
+
+.instruction-program-active {
+    background-color: #effced;
+}
+
+.instruction-program {
+    margin: 10px;
+    float: left;
+}
+
+button {
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 15;
+    background-color: #bfcadb;
+    padding: 10px;
+    border: 1px black solid;
+}
+
+.boardGridLine {
+    stroke: black;
+}
+
+#board {
+    margin: 10px;
+    background-color: #bfa891;
+    border: 3px black solid;
+}
+
+@-webkit-keyframes rotty {
+    0%   { transform: rotate(-5deg);     }
+    25%  { transform: rotate(0deg);      }
+    50%  { transform: rotate(5deg);      }
+    75%  { transform: rotate(0deg);      }
+    100% { transform: rotate(-5deg);     };
+}
+
+@keyframes rotty {
+    0%   { transform: rotate(-5deg);     }
+    25%  { transform: rotate(0deg);      }
+    50%  { transform: rotate(5deg);      }
+    75%  { transform: rotate(0deg);      }
+    100% { transform: rotate(-5deg);     };
+}
+
+.rotty-anim {
+    -webkit-animation: rotty 1.5s linear infinite;
+    animation: rotty 1.5s linear infinite;
+}
+
+@-webkit-keyframes squishy {
+    0%   { transform: scale(1, 1);    }
+    50%  { transform: scale(1, 0.9);  }
+    100%  { transform: scale(1, 1);   }
+}
+
+@keyframes squishy {
+    0%   { transform: scale(1, 1);    }
+    50%  { transform: scale(1, 0.9);  }
+    100%  { transform: scale(1, 1);   }
+}
+
+.squishy-anim {
+    -webkit-animation: squishy 1.5s linear infinite;
+    animation: squishy 1.5s linear infinite;
+}
