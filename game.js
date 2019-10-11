@@ -4,8 +4,20 @@ class Game {
         this.bearStartX = 1;
         this.bearStartY = 1;
         this.bear = new Bear(1, 1, 100, 100);
-        this.fish = new Food(1, 1, 50, 50);
+        // this.fish = new Food(1, 1, 50, 50);
+        this.fish = [
+            new Food(1, 1, 50, 50),
+            new Food(1, 1, 50, 50)
+        ]
         this.trees = [
+            new Tree(1, 1, 50, 50, "tree1.svg"),
+            new Tree(1, 1, 50, 50, "tree1.svg"),
+            new Tree(1, 1, 50, 50, "tree2.svg"),
+            new Tree(1, 1, 50, 50, "tree1.svg"),
+            new Tree(1, 1, 50, 50, "tree1.svg"),
+            new Tree(1, 1, 50, 50, "tree1.svg"),
+            new Tree(1, 1, 50, 50, "tree2.svg"),
+            new Tree(1, 1, 50, 50, "tree1.svg"),
             new Tree(1, 1, 50, 50, "tree1.svg"),
             new Tree(1, 1, 50, 50, "tree1.svg"),
             new Tree(1, 1, 50, 50, "tree2.svg"),
@@ -13,7 +25,8 @@ class Game {
         ]
         this.board = new Board(document.getElementById(svgId), boardWidth, boardHeight);
         this.board.add(this.bear);
-        this.board.add(this.fish);
+        this.board.add(this.fish[0]);
+        this.board.add(this.fish[1]);
         this.trees.forEach((tree) => this.board.add(tree));
         this.maxProgramSize = maxProgramSize;
         this.score = 0;
@@ -55,6 +68,9 @@ class Game {
                         this.bear.y = newY;
                     }
                 }
+            },
+            "chop": () => {
+
             }
         }
     }
@@ -109,13 +125,16 @@ class Game {
     }
 
     resetFood() {
-        let newX = 0, newY = 0;
-        do {
-            newX = this.getRandomInt(this.board.countX);
-            newY = this.getRandomInt(this.board.countY);
-        } while (this.isPositionTaken(newX, newY));
-        this.fish.x = newX;
-        this.fish.y = newY;
+        this.fish.forEach((fish) => {
+            let newX = 0, newY = 0;
+            do {
+                newX = this.getRandomInt(this.board.countX);
+                newY = this.getRandomInt(this.board.countY);
+            } while (this.isPositionTaken(newX, newY));
+            fish.x = newX;
+            fish.y = newY;
+        });
+
     }
 
     resetAllTrees() {
