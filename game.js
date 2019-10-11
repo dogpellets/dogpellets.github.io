@@ -5,10 +5,11 @@ class Game {
         this.bearStartY = 1;
         this.bear = new Bear(1, 1, 100, 100);
         this.fish = new Food(1, 1, 50, 50);
-        // this.fish = [
-        //     new Food(1, 1, 50, 50),
-        //     new Food(1, 1, 50, 50)
-        // ]
+        this.fish = [
+            new Food(1, 1, 50, 50),
+            new Food(1, 1, 50, 50),
+            new Food(1, 1, 50, 50),
+        ]
         this.trees = [
             new Tree(1, 1, 50, 50, "tree1.svg"),
             new Tree(1, 1, 50, 50, "tree1.svg"),
@@ -25,9 +26,10 @@ class Game {
         ]
         this.board = new Board(document.getElementById(svgId), boardWidth, boardHeight);
         this.board.add(this.bear);
-                this.board.add(this.fish);
-        // this.board.add(this.fish[0]);
-        // this.board.add(this.fish[1]);
+                // this.board.add(this.fish);
+        this.board.add(this.fish[0]);
+        this.board.add(this.fish[1]);
+        this.board.add(this.fish[2]);
         this.trees.forEach((tree) => this.board.add(tree));
         this.maxProgramSize = maxProgramSize;
         this.score = 0;
@@ -126,15 +128,15 @@ class Game {
     }
 
     resetFood() {
-        // this.fish.forEach((fish) => {
+        this.fish.forEach((fish) => {
             let newX = 0, newY = 0;
             do {
                 newX = this.getRandomInt(this.board.countX);
                 newY = this.getRandomInt(this.board.countY);
             } while (this.isPositionTaken(newX, newY));
-            this.fish.x = newX;
-            this.fish.y = newY;
-        // });
+            fish.x = newX;
+            fish.y = newY;
+        });
 
     }
 
@@ -216,7 +218,15 @@ class Game {
                 this.program[idx]();
                 this.setActiveInstruction(idx);
 
-                if (this.bear.x == this.fish.x && this.bear.y == this.fish.y) {
+                let touchedFish = false;
+                this.fish.forEach((fish) => {
+                    if (this.bear.x == fish.x && this.bear.y == fish.y) {
+                        touchedFish = true;
+                    }   
+                });
+
+                if (touchedFish) {
+                // if (this.bear.x == this.fish.x && this.bear.y == this.fish.y) {
                     success = true;
                     this.resetFood();
                     this.addScore();
