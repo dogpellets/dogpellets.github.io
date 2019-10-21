@@ -7,12 +7,16 @@ class Food {
         this.group = createSVGElem("g");
         this.image = createSVGElem("image");
         this.group.appendChild(this.image);
-        setSVGAttr(this.image, "href", "coins.svg");
+        setSVGAttr(this.image, "href", "fish.svg");
         setSVGAttr(this.image, "width", this.width);
         setSVGAttr(this.image, "height", this.height);
         setSVGAttr(this.image, "x", -this.width * 0.5);
         setSVGAttr(this.image, "y", -this.width * 0.5);
         this.image.classList.add("rotty-anim");
+    }
+
+    copy() {
+        return new Food(this.x, this.y, this.width, this.height);
     }
 
     getElement() {

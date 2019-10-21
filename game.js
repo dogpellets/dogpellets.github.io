@@ -1,16 +1,18 @@
 class Game {
     constructor(svgId, maxProgramSize, boardWidth, boardHeight) {
+        this.svgId = svgId;
+        this.boardWidth = boardWidth;
+        this.boardHeight = boardHeight;
         this.program = new Array();
         this.bearStartX = 1;
         this.bearStartY = 1;
         this.bear = new Bear(1, 1, 100, 100);
-        this.fish = new Food(1, 1, 100, 100);
-        this.fish = [
+        this.startFish = [
             new Food(1, 1, 50, 50),
             new Food(1, 1, 50, 50),
             new Food(1, 1, 50, 50),
         ]
-        this.trees = [
+        this.startTrees = [
             new Tree(1, 1, 50, 50, "tree1.svg"),
             new Tree(1, 1, 50, 50, "tree1.svg"),
             new Tree(1, 1, 50, 50, "tree2.svg"),
@@ -24,20 +26,16 @@ class Game {
             new Tree(1, 1, 50, 50, "tree2.svg"),
             new Tree(1, 1, 50, 50, "tree1.svg"),
         ]
-        this.board = new Board(document.getElementById(svgId), boardWidth, boardHeight);
-        this.board.add(this.bear);
-                // this.board.add(this.fish);
-        this.board.add(this.fish[0]);
-        this.board.add(this.fish[1]);
-        this.board.add(this.fish[2]);
-        this.trees.forEach((tree) => this.board.add(tree));
         this.maxProgramSize = maxProgramSize;
-        this.score = 0;
-        this.highScore = 0;
 
-        this.clear();
-        this.resetFood();
-        this.resetAllTrees();
+        this.clearProgram();
+        this.resetState();
+
+        this.randomizeAllFish();
+        this.randomizeTrees();
+
+        this.startTrees = this.trees.map((tree) => tree.copy());
+        this.startFish = this.fish.map((fish) => fish.copy());
 
         this.instructions = {
             "left" : () => { 
@@ -78,24 +76,6 @@ class Game {
         }
     }
 
-    addScore() {
-        this.score++;
-        if (this.score > this.highScore) {
-            this.highScore = this.score;
-        }
-        document.getElementById("score").innerText = this.score;
-        document.getElementById("highScore").innerText = this.highScore;
-    }
-
-    resetScore() {
-        if (this.score > this.highScore) {
-            this.highScore = this.score;
-        }
-        this.score = 0;
-        document.getElementById("score").innerText = this.score;
-        document.getElementById("highScore").innerText = this.highScore;
-    }
-
     isPositionOccluded(x, y) {
         let occluded = false;
         this.trees.forEach((tree) => {
@@ -127,7 +107,13 @@ class Game {
         return Math.floor(Math.random() * Math.floor(max));
     }
 
-    resetSingleFood(fish) {
+    randomizeAllFish() {
+        this.fish.forEach((fish) => {
+            this.randomizeFish(fish);
+        });
+    }
+
+    randomizeFish(fish) {
         let newX = 0, newY = 0;
         do {
             newX = this.getRandomInt(this.board.countX);
@@ -137,14 +123,7 @@ class Game {
         fish.y = newY;
     }
 
-    resetFood() {
-        this.fish.forEach((fish) => {
-            this.resetSingleFood(fish);
-        });
-
-    }
-
-    resetAllTrees() {
+    randomizeTrees() {
         this.trees.forEach((tree) => {
             let newX = 0, newY = 0;
             do {
@@ -193,10 +172,22 @@ class Game {
         }
     }
 
-    clear() {
+    resetState() {
+        let svg = document.getElementById(this.svgId);
+        this.trees = this.startTrees.map((tree) => tree.copy());
+        this.fish = this.startFish.map((fish) => fish.copy());
+        this.board = new Board(svg, this.boardWidth, this.boardHeight);
+        this.board.add(this.bear);
+        this.board.add(this.fish[0]);
+        this.board.add(this.fish[1]);
+        this.board.add(this.fish[2]);
+        this.trees.forEach((tree) => this.board.add(tree));
         this.resetBear();
-        this.resetProgram();
         this.render();
+    }
+
+    clearProgram() {
+        this.resetProgram();
     }
 
     run() {
@@ -205,40 +196,25 @@ class Game {
         }
 
         let idx = 0;
-        let success = false;
         let runInstruction = () => {
             this.clearActiveInstruction();
-            if (success) {
-                this.bearStartX = this.bear.x;
-                this.bearStartY = this.bear.y;
-                this.resetProgram();
-            }
-            
-            else if (idx >= this.program.length) {
-                this.resetBear();
-                this.resetScore();
-            
-            } else {
-                this.program[idx]();
-                this.setActiveInstruction(idx);
+           
+            this.program[idx]();
+            this.setActiveInstruction(idx);
 
-                let touchedFish = null;
-                this.fish.forEach((fish) => {
-                    if (this.bear.x == fish.x && this.bear.y == fish.y) {
-                        touchedFish = fish;
-                    }   
-                });
+            let touchedFish = null;
+            this.fish.forEach((fish) => {
+                if (this.bear.x == fish.x && this.bear.y == fish.y) {
+                    touchedFish = fish;
+                }   
+            });
 
-                if (touchedFish) {
-                    success = true;
-                    this.resetSingleFood(touchedFish);
-                    this.addScore();
-                }
-
-                idx++;
-                setTimeout(runInstruction, 1000);
+            if (touchedFish) {
+                this.randomizeFish(touchedFish);
             }
 
+            idx++;
+            setTimeout(runInstruction, 1000);
             this.render();
         }
 
