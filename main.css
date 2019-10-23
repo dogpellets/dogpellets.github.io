@@ -30,13 +30,29 @@ body {
     font-size: 30;
     font-weight: bold;
     cursor: default;
+    /* background-size: cover; */
+    background-size: 80% 80%;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
     -moz-user-select: none;
     -webkit-user-select: none;
-    -ms-user-select:none;    
+    -ms-user-select:none;
 }
 
-.instruction-set {
+.instruction-left {
+    background-image: url("arrow-left.svg");
+}
 
+.instruction-right {
+    background-image: url("arrow-right.svg");
+}
+
+.instruction-up {
+    background-image: url("arrow-up.svg");
+}
+
+.instruction-down {
+    background-image: url("arrow-down.svg");
 }
 
 .instruction-program-active {

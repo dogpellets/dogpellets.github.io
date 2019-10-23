@@ -157,18 +157,22 @@ class Game {
         instruction.innerText = label;
     }
 
-    addInstruction(name, label) {
+    addInstruction(name, className) {
         if (this.program.length < this.maxProgramSize &&
             this.instructions.hasOwnProperty(name)) {
             this.program.push(this.instructions[name]);
-            this.setInstructionLabel(this.program.length-1, label);
+            this.getInstructionElement(this.program.length-1).classList.add(className);
         }
     }
 
     resetProgram() {
         this.program = new Array();
         for (let idx = 0; idx < this.maxProgramSize; idx++) {
-            this.setInstructionLabel(idx, "");
+            let e = this.getInstructionElement(idx);
+            e.classList.remove('instruction-left');
+            e.classList.remove('instruction-right');
+            e.classList.remove('instruction-up');
+            e.classList.remove('instruction-down');
         }
     }
 

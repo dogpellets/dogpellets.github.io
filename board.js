@@ -10,13 +10,21 @@ class Board {
         this.entities.push(entity);
     }
 
+    getCellWidth() {
+        return (this.svg.clientWidth-2) / this.countX;
+    }
+
+    getCellHeight() {
+        return (this.svg.clientHeight-2) / this.countY;
+    }
+
     draw() {
         this.svg.innerHTML = "";
 
         let width = this.svg.clientWidth;
         let height = this.svg.clientHeight;
-        let cellWidth = (width-2) / this.countX;
-        let cellHeight = (height-2) / this.countY;
+        let cellWidth = this.getCellWidth();
+        let cellHeight = this.getCellHeight();
 
         for (let x = 1; x < this.countX; x++) {
             let line = createSVGElem("line");
